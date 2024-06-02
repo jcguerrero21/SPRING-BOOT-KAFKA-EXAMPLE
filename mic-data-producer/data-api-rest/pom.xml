@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.ms.data</groupId>
+    <artifactId>mic-data-producer</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>data-api-rest</artifactId>
+  <packaging>jar</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+
+  <properties>
+    <openapitools-version>7.6.0</openapitools-version>
+    <org.openapitools.jackson-databind-nullable.version>0.2.6</org.openapitools.jackson-databind-nullable.version>
+    <jakarta.validation.version>3.0.2</jakarta.validation.version>
+    <io.swagger.core.v3.version>2.2.7</io.swagger.core.v3.version>
+    <org.springdoc.version>2.0.2</org.springdoc.version>
+  </properties>
+
+  <dependencies>
+    <!-- Project dependencies -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>data-application</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- End Project dependencies -->
+
+    <!-- Spring dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <!-- End Spring dependencies -->
+
+    <!-- Dependencies for generate api first -->
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${org.openapitools.jackson-databind-nullable.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+      <version>${jakarta.validation.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${io.swagger.core.v3.version}</version>
+    </dependency>
+    <!-- End Dependencies for generate api first -->
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${org.springdoc.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- open api tools plugin -->
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapitools-version}</version>
+        <executions>
+          <execution>
+            <id>testApifirst</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <configHelp>false</configHelp>
+              <inputSpec>${project.basedir}/src/main/resources/apifirst.yml</inputSpec>
+              <output>${project.build.directory}/generated-sources</output>
+              <generatorName>spring</generatorName>
+              <generateModels>true</generateModels>
+              <modelPackage>com.ms.data.model.dto</modelPackage>
+              <apiPackage>com.ms.data.api</apiPackage>
+              <modelNamePrefix>test</modelNamePrefix>
+              <modelNameSuffix>DTO</modelNameSuffix>
+              <configOptions>
+                <useJakartaEe>true</useJakartaEe>
+                <useSpringBoot3>true</useSpringBoot3>
+                <interfaceOnly>true</interfaceOnly>
+                <skipDefaultInterface>true</skipDefaultInterface>
+                <useTags>true</useTags>
+                <dateLibrary>java8</dateLibrary>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <reactive>false</reactive>
+                <generateApiTests>false</generateApiTests>
+                <generateModelTests>false</generateModelTests>
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- end open api tools plugin -->
+    </plugins>
+  </build>
+</project>

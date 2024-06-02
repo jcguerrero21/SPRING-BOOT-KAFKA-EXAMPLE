@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: mic-data-producer
+  profiles:
+    active: local
+
+server:
+  port: 8080
+  error:
+    include-binding-errors: always
+    include-message: always

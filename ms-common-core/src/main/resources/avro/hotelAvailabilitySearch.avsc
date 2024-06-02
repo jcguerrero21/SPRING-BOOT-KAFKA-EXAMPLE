@@ -1,0 +1,29 @@
+{
+  "namespace": "com.ms.data.common.core.kafka.model",
+  "type": "record",
+  "name": "HotelAvailabilitySearch",
+  "fields": [
+    {
+      "name": "hotelId",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "checkIn",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "checkOut",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "ages",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+openapi: 3.0.0
+
+info:
+  title: test API
+  version: 1.0.0
+
+tags:
+- name: test
+
+paths:
+  /search:
+    post:
+      summary: Search for hotel availability
+      tags:
+      - test
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Identifier of the search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+      operationId: searchHotelAvailability
+  /count:
+    get:
+      summary: Obtain the number of similar searches
+      tags:
+      - test
+      parameters:
+      - in: query
+        name: searchId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Number of similar searches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+        '404':
+          description: Not Found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCustomResponse'
+      operationId: getCountOfSimilarSearches
+components:
+  schemas:
+    SearchRequest:
+      type: object
+      required:
+      - hotelId
+      - checkIn
+      - checkOut
+      - ages
+      properties:
+        hotelId:
+          type: string
+          description: hotelId Identifier
+          example: "AC TEST HOTEL"
+        checkIn:
+          type: string
+          pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$"
+          description: Check-in date in the format DD/MM/YYYY
+          example: "24/05/2024"
+        checkOut:
+          type: string
+          pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$"
+          description: Check-out date in the format DD/MM/YYYY
+          example: "26/05/2024"
+        ages:
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            maximum: 130
+            description: The age number, which must be between 0 and 130
+          example: [ 0, 1, 6, 35, 42 ]
+    SearchResponse:
+      type: object
+      properties:
+        searchId:
+          type: string
+    CountResponse:
+      type: object
+      properties:
+        searchId:
+          type: string
+        search:
+          $ref: '#/components/schemas/SearchRequest'
+        count:
+          type: integer
+    ErrorCustomResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
