@@ -25,7 +25,7 @@ The technical test consists of 2 microservices/artifacts and a common library.
 * **ms-common-core**
 The common library contains classes annotated with `@Entity` for different database transactions (PostgreSQL), JPA repository interfaces, and other common classes + dependencies shared across artifacts. It also defines the `.avsc` file used for Kafka's schema registry. Classes defined in this file are automatically generated using the `org.apache.avro:avro-maven-plugin:version.x` plugin. The generated classes are located in the kafka.model package of `ms-common-core`.
 
-* **mic-data-producer (puerto :8080)**
+* **mic-data-producer (port :8080)**
 
 This microservice/artifact is responsible for handling data input via REST protocol and producing events/messages to the Kafka broker.
 
@@ -39,7 +39,7 @@ To define this microservice, a hexagonal architecture has been used, divided int
 
     - data-test: This module defines the application tests (unit tests have been performed).
 
-* **mic-data-consumer (puerto :8089)**
+* **mic-data-consumer (port :8089)**
 
 The next microservice/artifact is responsible for consuming messages sent to the Kafka topic `hotel_availability_search` and persisting them in the PostgreSQL database.
 
